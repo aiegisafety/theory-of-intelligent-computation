@@ -1194,9 +1194,9 @@ We recommend that anyone reproducing experiments of this kind check the followin
 
 ## Appendix D — Code and Data Availability
 
-All verification scripts, raw experimental data (discrete rendezvous, $\sigma_\theta$ measurements, drift absorption; continuous-torus experiments; the external `simple_spread_v3` evaluation), and the theorem-development notes underlying this paper are available at: **[REPOSITORY URL — TO BE ADDED BEFORE SUBMISSION]**.
+All verification scripts, raw experimental data (discrete rendezvous, $\sigma_\theta$ measurements, drift absorption; continuous-torus experiments; the external `simple_spread_v3` evaluation), and the theorem-development notes underlying this paper are available at:
 
-Until the repository is public, materials are available from the corresponding author on request.
+**https://github.com/aiegisafety/theory-of-intelligent-computation** (this repository).
 
 ---
 
