@@ -5,11 +5,9 @@ transitions on the coarsest abstraction determined by the goal. This repository 
 the numerical verification scripts for its theorems, the raw data behind every table and figure, and
 the internal notes that trace how the theorems were derived and revised.
 
-The paper is the entry point. Everything else in this repository exists to make its claims checkable.
-
-- **Paper (English, arXiv submission source):** [`paper/TIC-Main-Paper-v1.0-EN.tex`](paper/TIC-Main-Paper-v1.0-EN.tex) / [`paper/TIC-Main-Paper-v1.0-EN.pdf`](paper/TIC-Main-Paper-v1.0-EN.pdf)
-- **Paper (English, Markdown source used to generate the LaTeX):** [`paper/TIC-Main-Paper-v1.0-EN.md`](paper/TIC-Main-Paper-v1.0-EN.md)
-- **Paper (Chinese long-form, supplementary):** [`paper/TIC-Main-Paper-v1.0-ZH.md`](paper/TIC-Main-Paper-v1.0-ZH.md)
+The paper itself is posted on arXiv (link to be added once live) and is not included in this
+repository. Everything here exists to make its claims independently checkable: verification
+scripts, raw experimental data, and the theorem-development notes.
 
 If you are only here to check one thing, start with §15 of the paper ("Summary of validity
 conditions") and §17 ("Epistemic status") — they index every claim against its evidence and its
@@ -18,7 +16,6 @@ known failure conditions.
 ## Repository layout
 
 ```
-paper/                        the paper itself (English + Chinese long-form)
 theorem-verification/         standalone numerical checks for individual theorems and counterexamples
 experiment5_discrete/         discrete rendezvous experiments: bandwidth law, fault-tolerant
                                threshold, operational variance-entropy, ontological drift
@@ -89,20 +86,10 @@ success story:
 
 - **Code** (`theorem-verification/`, `experiment5_discrete/`, `experiment6_continuous/`,
   `experiment8_mpe_external/`): MIT License — see [`LICENSE`](LICENSE).
-- **Paper and data** (`paper/`, the `data/` subfolders, `docs/`): Creative Commons Attribution 4.0
+- **Data and notes** (the `data/` subfolders, `docs/`): Creative Commons Attribution 4.0
   International (CC BY 4.0) — see [`LICENSE-DATA.md`](LICENSE-DATA.md).
 
 ## Citation
 
-A citable DOI for this exact snapshot will be added here once the repository is archived on Zenodo.
-Until then, cite the paper directly:
-
-```bibtex
-@article{tic2026,
-  title   = {Abstraction and Bandwidth in Intelligent Computation: A Task-Relative Theory of State Computation},
-  author  = {aiegisafety},
-  year    = {2026},
-  note    = {Preprint},
-  url     = {[arXiv URL — to be added]}
-}
-```
+See the arXiv listing (link to be added once live) for the paper, full author details, and the
+canonical citation.

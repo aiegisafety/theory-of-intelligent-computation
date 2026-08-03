@@ -6,3 +6,7 @@ __pycache__/
 .venv/
 venv/
 *.egg-info/
+
+# Paper is submitted/published on arXiv under the author's real name and is
+# kept out of this (name-scrubbed) public code repository on purpose.
+paper/
