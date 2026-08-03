@@ -1,0 +1,9 @@
+N= 6 m=2 K=1  |S|=  1296  blocks=  4  h=4.6439  h_theta=1.9027  ratio=0.410
+N= 6 m=3 K=1  |S|=  1296  blocks=  9  h=4.6439  h_theta=3.0987  ratio=0.667
+N= 6 m=6 K=1  |S|=  1296  blocks= 36  h=4.6439  h_theta=3.5395  ratio=0.762
+N= 6 m=2 K=4  |S|=  5184  blocks=  4  h=6.6439  h_theta=1.9027  ratio=0.286
+N= 6 m=3 K=4  |S|=  5184  blocks=  9  h=6.6439  h_theta=3.0987  ratio=0.466
+N= 6 m=6 K=4  |S|=  5184  blocks= 36  h=6.6439  h_theta=3.5395  ratio=0.533
+N=12 m=2 K=1  |S|= 20736  blocks=  4  h=4.6439  h_theta=1.9027  ratio=0.410
+N=12 m=3 K=1  |S|= 20736  blocks=  9  h=4.6439  h_theta=3.0987  ratio=0.667
+N=12 m=6 K=1  |S|= 20736  blocks= 36  h=4.6439  h_theta=3.5395  ratio=0.762

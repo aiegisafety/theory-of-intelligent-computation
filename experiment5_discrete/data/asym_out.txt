@@ -1,0 +1,27 @@
+================================================================================================
+TEST 1 — autocovariance: does sd(T_n/n) = sigma_theta/sqrt(n) survive
+          once the quotient rows are no longer permutations?
+================================================================================================
+  m=4  |S|=2304  blocks=16  distinct row shapes=10/16
+  h_theta=3.2110  sigma_theta=1.2293
+
+    n  E[T_n/n]  sd(T_n/n) sigma/sqrt(n)   RATIO  implied Cov contrib
+    1    3.2110     1.2293        1.2293  1.0000              +0.0000
+    2    3.2110     0.8786        0.8692  1.0108              +0.0217
+    3    3.2110     0.7227        0.7097  1.0183              +0.0369
+    4    3.2110     0.6291        0.6146  1.0235              +0.0476
+
+  (torus reference: this ratio was 1.0000 at every n)
+
+================================================================================================
+TEST 2 — transition width vs sigma_theta, on a 16-36 block quotient
+================================================================================================
+  NOTE: the exact-code curve is a staircase that need not span
+  [0.2, 0.8], so the width is measured on the INFORMATION-TAIL curve
+  Pr[T > C] -- which section 11 established is the object the
+  Gaussian law actually describes.  Quantity reported: the 20-80
+  quantile width of T, divided by sigma_theta.  Gaussian => 1.683.
+
+   m  drag  p_hi  blocks  shapes  h_theta   sigma   W_tail  W/sigma
+   4  0.00  0.45      16      10   3.2110  1.2293   2.0080   1.6335
+   4  0.20  0.45      16      10   2.9042  1.4835   2.5836   1.7415
