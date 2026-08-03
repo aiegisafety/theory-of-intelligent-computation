@@ -7,7 +7,8 @@ the internal notes that trace how the theorems were derived and revised.
 
 The paper is the entry point. Everything else in this repository exists to make its claims checkable.
 
-- **Paper (English, submission version):** [`paper/TIC-Main-Paper-v1.0-EN.md`](paper/TIC-Main-Paper-v1.0-EN.md)
+- **Paper (English, arXiv submission source):** [`paper/TIC-Main-Paper-v1.0-EN.tex`](paper/TIC-Main-Paper-v1.0-EN.tex) / [`paper/TIC-Main-Paper-v1.0-EN.pdf`](paper/TIC-Main-Paper-v1.0-EN.pdf)
+- **Paper (English, Markdown source used to generate the LaTeX):** [`paper/TIC-Main-Paper-v1.0-EN.md`](paper/TIC-Main-Paper-v1.0-EN.md)
 - **Paper (Chinese long-form, supplementary):** [`paper/TIC-Main-Paper-v1.0-ZH.md`](paper/TIC-Main-Paper-v1.0-ZH.md)
 
 If you are only here to check one thing, start with §15 of the paper ("Summary of validity
@@ -99,7 +100,7 @@ Until then, cite the paper directly:
 ```bibtex
 @article{tic2026,
   title   = {Abstraction and Bandwidth in Intelligent Computation: A Task-Relative Theory of State Computation},
-  author  = {[Author name]},
+  author  = {Rong Xiang},
   year    = {2026},
   note    = {Preprint},
   url     = {[arXiv URL — to be added]}

@@ -1,15 +1,13 @@
 # Abstraction and Bandwidth in Intelligent Computation
 ## A Task-Relative Theory of State Computation
 
-**[Author name]**$^{1}$
+**Rong Xiang**
 
-$^{1}$[Affiliation] — Correspondence: [email]
+Independent Researcher — Correspondence: xiangrong@vodafone.de
 
 **Theory of Intelligent Computation (TIC) — Main Paper v1.0 (English edition)**
 
 Date: 2026-08-02
-
-*Suggested arXiv subject classes: cs.AI (primary); cs.IT, cs.MA, cs.LO (cross-list)*
 
 ---
 
@@ -23,15 +21,15 @@ Every clause of that sentence is provable, measurable, and falsifiable. Concrete
 
 1. **Abstraction is not designed, it is computed.** Given a goal and a dynamics, there exists a **unique coarsest** task-sufficient equivalence relation $\sim_\theta^*$, computable in polynomial time (Theorem 4). The designer has no free parameter here.
 
-2. **Every task has an intrinsic bandwidth $h_\theta$.** The channel capacity required for multi-agent coordination is priced by $h_\theta$ alone, **independent of the size of the physical state space and of the physical entropy rate** (Theorem 6). We test this with three mutually independent experiments: adding 2.000 bits to the physical entropy rate, multiplying the state count by 16, and raising the dimension of a continuous state from 4 to 20 — the threshold moves by 0.05 bits, 0.36 bits, and 0.02 bits respectively (the performance curve itself does not move at all).
+2. **Every task has an intrinsic bandwidth $h_\theta$.** When agents must coordinate on a task, they must communicate about it, and that communication has a cost: bits per step. We call this per-task rate a *bandwidth* by direct analogy with channel capacity in communication engineering — it is the number of bits per step two coordinating agents must be able to exchange for their commitments to stay compatible. The channel capacity required for multi-agent coordination is priced by $h_\theta$ alone, **independent of the size of the physical state space and of the physical entropy rate** (Theorem 6). We test this with three mutually independent experiments: adding 2.000 bits to the physical entropy rate moves the threshold by 0.05 bits; multiplying the state count by 16 moves it by at most 0.36 bits; and raising the dimension of a continuous state from 4 to 20 leaves the threshold at the same $C\approx3$, with the performance curve essentially flat (0.95/0.97/0.97).
 
 3. **The threshold is a tail probability, not a cliff.** The zero-error form of the bandwidth law, $C\ge h_\theta$, is falsified by measurement: the empirical threshold sits systematically below $h_\theta$, and the transition is smooth rather than sharp. We prove that the error rate is governed by the **upper-tail probability of the per-step information variable** (Theorem 14), yielding the fault-tolerant form
 $$C^*(\varepsilon)\;\approx\;h_\theta+\sigma_\theta\,Q^{-1}(\varepsilon),$$
-   which introduces a second per-task quantity, the **operational variance-entropy** $\sigma_\theta^2$. $h_\theta$ fixes the location of the threshold; $\sigma_\theta$ fixes the width of the transition band. Predicting the threshold from task structure alone — with no fitted parameters — gives a mean error of 0.286 bits, a 2.95× improvement over the naive prediction.
+   which introduces a second per-task quantity, the **operational variance-entropy** $\sigma_\theta^2$ — defined not on the raw physical source or channel but on the **task-induced quotient chain** (the same physical environment run under two different goals has two different values of $\sigma_\theta$; see the note preceding Part I). $h_\theta$ fixes the location of the threshold; $\sigma_\theta$ fixes the width of the transition band. Predicting the threshold from task structure alone — with no fitted parameters — gives a mean error of 0.286 bits, a 2.95× improvement over the naive prediction.
 
 4. **Ontological drift is charged for only when it cannot be absorbed.** The common intuition that "a faster-changing world demands more bandwidth" is wrong. We prove, and confirm experimentally, that when drift is a symmetry of the state space, the canonical abstraction absorbs it entirely, at zero cost (measured: $h_A$ driven up to 1.18 bits/step while the threshold moves by only 0.024 bits); when drift instead changes which distinctions matter, it is charged bit-for-bit (measured slope 1.000, exact to the last digit reported). The corrected two-level rate condition is $C\ge h_\theta+h_A^{\perp}$, and $h_A^\perp$ admits a computable criterion (Theorem 11′).
 
-5. **Entering the continuum requires fault tolerance.** In continuous state spaces, $h_\theta$ as "bits per step" **does not exist** — differential entropy is coordinate-dependent and can be negative. Its replacement is a rate-distortion quantity $R_\theta(D)$. This means the fault-tolerance parameter of Theorem 14 is not a patch; it is the **precondition** for the theory to enter the continuous world at all — the zero-error bandwidth law cannot even be stated there.
+5. **Entering the continuum requires fault tolerance.** In continuous state spaces, $h_\theta$ as "bits per step" **does not exist** — differential entropy is coordinate-dependent and can be negative. Its replacement is a rate-distortion quantity $R_\theta(D_{\mathrm{dist}})$. This means the fault-tolerance parameter of Theorem 14 is not a patch; it is the **precondition** for the theory to enter the continuous world at all — the zero-error bandwidth law cannot even be stated there.
 
 We report every negative result and every known boundary of validity alongside the positive ones: a falsified quantitative constant, a Gaussian approximation that fails outside a stated regime, an experimental condition retired as uninformative, and a numerical bug we found in our own code together with an audit of its consequences.
 
@@ -41,7 +39,7 @@ We report every negative result and every known boundary of validity alongside t
 
 This is the **long-form** version of the paper, written for two kinds of readers:
 
-- **Readers who want the conclusions**: read the Abstract, §1 (intuition), §6 (the bandwidth law), §9 (the fault-tolerant threshold), and §14 (the summary of validity conditions).
+- **Readers who want the conclusions**: read the Abstract, §1 (intuition), §6 (the bandwidth law), §10 (the fault-tolerant threshold), and §15 (the summary of validity conditions).
 - **Readers who want to check correctness**: every proof is in the main text, not deferred to an appendix; each theorem is immediately followed by its numerical verification and by its **known failure conditions**.
 
 **Many of the definitions here are being proposed for the first time.** Each new definition therefore follows the same four-part template:
@@ -82,7 +80,7 @@ The remainder of this paper turns that intuition into something provable, measur
 
 ### 1.2 The central claim, in one line
 
-$$\boxed{\textbf{Intelligent computation = selecting state transitions on the coarsest abstraction determined by the goal.}}$$
+$$\boxed{\begin{array}{c}\textbf{Intelligent computation = selecting state transitions}\\\textbf{on the coarsest abstraction determined by the goal.}\end{array}}$$
 
 Three words in that sentence are load-bearing:
 
@@ -94,7 +92,7 @@ The paper's title, restated more plainly:
 
 > **Intelligence does not mean knowing as much as possible about the world; it means needing to know as little as possible about the world while still doing the right thing.**
 
-### 1.3 Four results and how they fit together
+### 1.3 The main results and how they fit together
 
 ```
         Theorem 4  canonical abstraction  ~θ*  ← abstraction is computed, uniquely coarsest
@@ -110,11 +108,23 @@ The paper's title, restated more plainly:
              │           ← introduces a second quantity σ_θ (operational variance-entropy)
              ├────────────► Theorem 11′  time dimension: C ≥ h_θ + h_A^⊥
              │
-             └────────────► continuum limit: h_θ ⇝ R_θ(D)
+             └────────────► continuum limit: h_θ ⇝ R_θ(D_dist)
                              ← fault tolerance is a precondition, not a patch
 ```
 
 **How to read this**: Theorem 4 constructs the object, $h_\theta$ assigns it a number, Theorem 6 says that number is the price of coordination, Theorem 14 says that price must be discounted according to the required reliability, Theorem 11′ extends it across time, and the continuum limit explains why Theorem 14 is not optional.
+
+### 1.4 Why this matters
+
+It is fair to ask, before wading into primitives and proofs, what this buys beyond an elegant slogan. We see three concrete payoffs, of different evidentiary weight, and we try to keep that difference visible rather than blur it.
+
+**A computable budget for "how much does this task need to know."** Most treatments of abstraction, representation, and world models are qualitative: an abstraction is "good" if it works, and there is no independent way to ask how much information a task requires before checking whether a given representation happens to supply it. Theorem 4 removes the design freedom (the coarsest sufficient abstraction is computed, not chosen) and $h_\theta$ turns "how hard is this task" into a number with units, bits per step, that can be measured, compared across tasks, and written into a budget the way a communication engineer writes down a channel's capacity. This is a modest claim about one quantity, not a general theory of intelligence, and we make it precisely because it is checkable: §8, §10, and §17.2 are that check.
+
+**A design rule for bandwidth-constrained coordination, tested here only in simulation.** The encoding rule of §6.3 — transmit the task-equivalence class, not the physical state — has an obvious pull toward settings where communication is the scarce resource: multi-robot teams, sensor networks, any system where agents share a channel narrower than the raw state they observe. We have not tested it on such a system. What we have shown is that the rule is *derived*, with a computable price ($h_\theta$, and its fault-tolerant form $C^*(\varepsilon)$) attached to it, rather than proposed as good engineering practice. Whether it survives contact with a real robotic communication stack is exactly the kind of external test §18 asks for, not a result we report.
+
+**Two proven results with a wider resonance than their proofs.** Independently of any application, two theorems in this paper describe phenomena usually discussed only informally, and give them a precise, falsifiable form. Theorem 3 (§7) shows that coordination requires agents to agree, not to be correct, and that agreeing-while-wrong can be the cheapest stable configuration a bandwidth-constrained system finds — a mechanism worth having a name for wherever shared conventions substitute for shared accuracy. Theorem 13 (§14) shows that a tighter tolerance for failure requires a *wider* minimal viable identity, which is why we read real-world specialization as a capacity economy under $h_\theta$ rather than as evidence of optimality. Neither claim depends on the rest of the paper being right about robotics or representation learning; both stand on their own proofs.
+
+We list these in decreasing order of how much the paper itself has verified, on purpose: the last point is proved outright, the second is a derived-but-untested design implication, and the first is the frame the other two sit inside. §17 and §18 are the honest accounting of which is which.
 
 ---
 
@@ -318,7 +328,7 @@ By (2), the fixed point is coarser than or equal to $\sim_\theta^*$; by (1) it i
 
 We record this because it is worth recording honestly: while designing a verification environment, the author predicted a particular meeting task would produce $m^2$ blocks in the quotient. **The algorithm returned $m$ blocks, and the algorithm was right** — the goal depends only on $(x_1-x_2)\bmod m$, and this difference is itself dynamically closed, so **the absolute position collapses entirely**.
 
-Events of this kind happened more than once in this project (see also §5.4, §13.2). We take them as evidence that the formal system is "alive": **a formal system that only ever agrees with its author is useless.**
+Events of this kind happened more than once in this project (see also §5.4, §13.4). We take them as evidence that the formal system is "alive": **a formal system that only ever agrees with its author is useless.**
 
 ---
 
@@ -365,6 +375,8 @@ The old slogan conflated the second question with the third — **it mistook the
 The stopping rule for deliberation should not be "entropy has fallen far enough," but the standard **value-of-computation** criterion (Russell & Wefald, 1991):
 $$V(D)=\Delta\,\mathbb E[Q(\tau)]-\lambda\cdot\mathrm{Cost}(D),$$
 i.e., "how much does one more step of thought improve the expected quality of the chosen transition, net of the cost of thinking that step." **We adopt this criterion directly from existing work and claim no novelty for it.**
+
+One consequence is worth naming without promoting it to a formal principle. Because $V(D)$ trades expected improvement against cost rather than tracking $H_D$ directly, a good deliberation process need not shrink $H_D$ monotonically: generating new candidate transitions can legitimately *raise* $H_D$ first — an expansion phase — whenever doing so raises $\mathbb E[Q(\tau)]$ enough to justify its cost, with constraint collapse (§3.3, Theorem 1) doing the contracting once candidates are in hand. Informally, this expand-then-collapse pattern could be called *entropy breathing*. We do not use that name anywhere else in this paper, and we flag why: under the admission rule of §2.1, it is a redescription of $V(D)$ together with Theorem 1, not an independent claim, and it earns no theorem of its own here.
 
 > **On the record.** Theorem 5 is the first time this formal system overturned a conclusion its author wanted. We keep this episode in the record rather than quietly rewriting it, because part of a theory's credibility comes from **how many times it has overruled itself.**
 
@@ -507,7 +519,7 @@ In the experiments reported here, the ablation results are: best performance **0
 
 # Part III — The Fault-Tolerant Bandwidth Threshold
 
-## 9. A falsified constant
+## 9. Falsification of the Zero-Error Threshold
 
 ### 9.1 What the data say
 
@@ -552,11 +564,12 @@ This is also why the bandwidth law involves the **entropy rate** $h_\theta$ (the
 ### 10.1 The per-step information variable
 
 > **Definition 10.1.** The **per-step information variable** of the operational chain is
-> $$T\;:=\;-\log_2 P(S_{\theta,t+1}\mid S_{\theta,t}),\qquad \mathbb E[T]=h_\theta.$$
+> $$\imath\;:=\;-\log_2 P(S_{\theta,t+1}\mid S_{\theta,t}),\qquad \mathbb E[\imath]=h_\theta.$$
+> (We use $\imath$, following the standard notation for pointwise information density, rather than a bare letter, to avoid any collision with the transition entropy $H_T$ of §3.2 or with the episode length $T$ used as an ordinary constant in §10.9.)
 
-**(a) Intuition.** $T$ measures "how surprising this particular step was," in bits. Its **mean** is $h_\theta$. But it is a **random variable** — some steps are easy to predict ($T$ small), others are genuinely surprising ($T$ large).
+**(a) Intuition.** $\imath$ measures "how surprising this particular step was," in bits. Its **mean** is $h_\theta$. But it is a **random variable** — some steps are easy to predict ($\imath$ small), others are genuinely surprising ($\imath$ large).
 
-**(b) Example.** You are broadcasting your position on the Underground to a friend. Most of the time the next station is the only possibility, so $T\approx0$ (almost nothing needs to be sent). At a major interchange, five continuations are suddenly possible and $T$ jumps to a couple of bits. **The average is $h_\theta$, but what you need is a channel wide enough to absorb the spikes.**
+**(b) Example.** You are broadcasting your position on the Underground to a friend. Most of the time the next station is the only possibility, so $\imath\approx0$ (almost nothing needs to be sent). At a major interchange, five continuations are suddenly possible and $\imath$ jumps to a couple of bits. **The average is $h_\theta$, but what you need is a channel wide enough to absorb the spikes.**
 
 ### 10.2 Lemma 14.1 (list-covering)
 
@@ -578,11 +591,11 @@ contradicting normalization. $\blacksquare$
 > and the top-$M$ code is **optimal** among all one-step codes with $M$ symbols.
 >
 > **(b) Information-spectrum bound.**
-> $$\varepsilon_{\mathrm{opt}}(C)\ \le\ \Pr[\,T>C\,].$$
+> $$\varepsilon_{\mathrm{opt}}(C)\ \le\ \Pr[\,\imath>C\,].$$
 
 **Proof.** (a) A one-step decoder can cover a set of size at most $M$; coverage mass is maximized by taking the $M$ most probable elements, so top-$M$ is optimal, and the error rate is exactly the uncovered mass.
 
-(b) By Lemma 14.1 (with $M=2^C$), $S_{\theta,t+1}\notin L_M(S_{\theta,t})$ implies $P(S_{\theta,t+1}\mid S_{\theta,t})<2^{-C}$, i.e., $T>C$. So the error event is contained in $\{T>C\}$; taking probabilities gives the bound. $\blacksquare$
+(b) By Lemma 14.1 (with $M=2^C$), $S_{\theta,t+1}\notin L_M(S_{\theta,t})$ implies $P(S_{\theta,t+1}\mid S_{\theta,t})<2^{-C}$, i.e., $\imath>C$. So the error event is contained in $\{\imath>C\}$; taking probabilities gives the bound. $\blacksquare$
 
 ### 10.4 What this step explains
 
@@ -591,12 +604,12 @@ contradicting normalization. $\blacksquare$
 The upper tail varies **continuously** with $C$, so:
 
 - **A smooth collapse is not a failure of the theory — it is the necessary shape of a tail probability.** This explains observation (ii) of §9.1.
-- The **width** of the transition band is set by how **dispersed** $T$ is — which motivates the next quantity.
+- The **width** of the transition band is set by how **dispersed** $\imath$ is — which motivates the next quantity.
 
 ### 10.5 Operational variance-entropy $\sigma_\theta$
 
 > **Definition 10.2 (Operational variance-entropy).**
-> $$\sigma_\theta^2\ :=\ \mathrm{Var}(T).$$
+> $$\sigma_\theta^2\ :=\ \mathrm{Var}(\imath).$$
 
 **(a) Intuition.** $h_\theta$ says how many bits per step this task needs **on average**; $\sigma_\theta$ says how much that need **fluctuates**.
 
@@ -628,7 +641,26 @@ $$\varepsilon(C)\approx Q\!\Big(\frac{C-h_\theta}{\sigma_\theta}\Big),\qquad
 - **Optimality of top-$M$**: the encoder actually used in the §8 experiments matches $\varepsilon_{\mathrm{opt}}$ pointwise (maximum deviation 0.0046). **This rules out the alternative explanation "the encoder was suboptimal"** — that encoder is in fact a one-step optimal code.
 - **Measured $\sigma_\theta$**: 0.5132 at $m=2$, 0.4653 at $m=3$, 0.7061 at $m=6$; and, like $h_\theta$, **immune to state count and physical entropy rate**.
 
-### 10.8 Corollary 14.4: predicting the threshold from task structure alone (closed loop)
+### 10.8 Corollary 14.3: a sharp threshold is a limit, not a reality
+
+If $n$-step block coding is allowed (the agent may delay committing for $n$ steps), the relevant quantity becomes $\imath_n/n$, whose standard deviation is $\sigma_\theta/\sqrt n$ under an independence approximation. Then
+$$C^*(\varepsilon)\approx h_\theta+\frac{\sigma_\theta}{\sqrt n}Q^{-1}(\varepsilon)\ \xrightarrow[n\to\infty]{}\ h_\theta.$$
+
+**Measured ($m=2$, $h_\theta=1.903$):**
+
+| $n$ | 1 | 2 | 4 | 6 | 8 | 11 |
+|---|---|---|---|---|---|---|
+| $C^*(0.5)$ | 0.437 | 1.105 | 1.473 | 1.595 | 1.650 | **1.708** |
+
+**The threshold climbs monotonically toward $h_\theta$, while the transition band narrows in step (1.362 → 0.367).**
+
+> **Reconciliation: the old bandwidth law is exactly correct in the limit of infinite block length and zero fault tolerance. Its error was being treated as the general case.** An agent cannot wait to accumulate a thousand steps before deciding where to go, so TIC needs the **finite-block-length** version.
+
+**(b) Example.** If you could say "let me walk ten more steps and then tell you exactly where I am all at once," you could compress well on average, with small error. But if **every single step you must decide where to move based on the other person's position**, there is no room to accumulate. **An agent that can wait and an agent that must act immediately face different information theories.**
+
+This also gives a quantitative trade-off for commitment: **the number of steps a commitment can be delayed and the width of the channel are interchangeable.**
+
+### 10.9 Corollary 14.4: predicting the threshold from task structure alone (closed loop)
 
 This is the strictest test of Theorem 14: **fit no parameters**, and predict the threshold purely from the task definition.
 
@@ -651,34 +683,17 @@ $$\text{mean}|\text{error}|:\ \mathbf{0.286}\ \text{bits}\quad\text{vs.}\quad\te
 
 **More importantly, the character of the error changed.** The old prediction's error was $+0.846$, with all six points **the same sign** — a systematic bias; the new prediction's error is $-0.118$ with mixed signs — **residual noise**.
 
-### 10.9 Corollary 14.3: a sharp threshold is a limit, not a reality
-
-If $n$-step block coding is allowed (the agent may delay committing for $n$ steps), the relevant quantity becomes $T_n/n$, whose standard deviation is $\sigma_\theta/\sqrt n$ under an independence approximation. Then
-$$C^*(\varepsilon)\approx h_\theta+\frac{\sigma_\theta}{\sqrt n}Q^{-1}(\varepsilon)\ \xrightarrow[n\to\infty]{}\ h_\theta.$$
-
-**Measured ($m=2$, $h_\theta=1.903$):**
-
-| $n$ | 1 | 2 | 4 | 6 | 8 | 11 |
-|---|---|---|---|---|---|---|
-| $C^*(0.5)$ | 0.437 | 1.105 | 1.473 | 1.595 | 1.650 | **1.708** |
-
-**The threshold climbs monotonically toward $h_\theta$, while the transition band narrows in step (1.362 → 0.367).**
-
-> **Reconciliation: the old bandwidth law is exactly correct in the limit of infinite block length and zero fault tolerance. Its error was being treated as the general case.** An agent cannot wait to accumulate a thousand steps before deciding where to go, so TIC needs the **finite-block-length** version.
-
-**(b) Example.** If you could say "let me walk ten more steps and then tell you exactly where I am all at once," you could compress well on average, with small error. But if **every single step you must decide where to move based on the other person's position**, there is no room to accumulate. **An agent that can wait and an agent that must act immediately face different information theories.**
-
-This also gives a quantitative trade-off for commitment: **the number of steps a commitment can be delayed and the width of the channel are interchangeable.**
-
 ### 10.10 Three honest negative results
 
 We report, as found, the parts of Theorem 14 that did not survive testing.
 
 **(1) The $1/\sqrt n$ rate does not hold at achievable $n$.** $W(n)\sqrt n$ should converge to $1.683\,\sigma_\theta=0.864$; measured up to $n=11$ it is still at 1.216 and still decreasing; fitted exponents are 0.77–0.87, so **the band narrows faster than predicted.**
 
-**Diagnosis (we guessed wrong once, and record it here)**: we originally suspected the exact curve was **narrower** than the information-tail bound $\Pr[T_n/n>C]$ (i.e., the bound was loose). **The opposite turned out to be true** — the exact curve is wider, with the ratio going from 2.33 to 1.56. Meanwhile **the information tail itself matches the prediction well** ($n=6$: measured 0.3617 versus theoretical 0.3526, a 2.6% difference).
+**Diagnosis (we guessed wrong once, and record it here)**: we originally suspected the exact curve was **narrower** than the information-tail bound $\Pr[\imath_n/n>C]$ (i.e., the bound was loose). **The opposite turned out to be true** — the exact curve is wider, with the ratio going from 2.33 to 1.56. Meanwhile **the information tail itself matches the prediction well** ($n=6$: measured 0.3617 versus theoretical 0.3526, a 2.6% difference).
 
-> **Conclusion: the $1/\sqrt n$ law accurately describes the bound, not the optimal-code error curve itself.** Corollary 14.3 should be restated as "**the transition width has $1/\sqrt n$ as an asymptotic lower envelope**," not as an equality.
+> **Conclusion: the $1/\sqrt n$ law accurately describes the bound, not the optimal-code error curve itself.** Corollary 14.3 should be restated as "**over the tested range, $\sigma_\theta/\sqrt n$ lower-bounds the transition width**," not as an equality.
+
+**A caution about extrapolating that fitted exponent.** The two observations above pull in opposite directions if read as asymptotic statements: an exponent of $0.82$ sustained to $n\to\infty$ would eventually carry $W(n)$ *below* any $A\,n^{-1/2}$ curve, contradicting a lower envelope. Both are consistent only as finite-$n$ statements — the width starts well above the $1/\sqrt n$ prediction and is closing on it faster than $1/\sqrt n$ over $n\le11$. We therefore claim the bound only on the range measured, and note that $0.77$–$0.87$ is a **local, pre-asymptotic slope** that must not be read as the true exponent. Settling the genuine asymptotic form requires $n$ well beyond what we tested (§18).
 
 **(2) The Gaussian form is inaccurate for small quotient chains.** On a quotient chain with 4/9 blocks, at $m=2$, $C=2$, the exact value is 0.0000 while the Gaussian form gives 0.4248 — the CLT does not apply there.
 
@@ -696,7 +711,7 @@ Every measurement of $\sigma_\theta$ in §10 came from the same family of enviro
 
 ### 11.1 A degeneracy we discovered
 
-On the rendezvous torus, every row of the quotient kernel is a **permutation of the same distribution** (for $m=2$, every row is $\{0.36,0.32,0.16,0.16\}$). This has a consequence we never required: **the information variable $T$ is step-wise i.i.d.**, and every autocovariance term of the variance-entropy is identically zero. Measured, $\mathrm{sd}(T_n/n)=\sigma_\theta/\sqrt n$ holds **exactly** (a ratio of 1.0000 for every $n$).
+On the rendezvous torus, every row of the quotient kernel is a **permutation of the same distribution** (for $m=2$, every row is $\{0.36,0.32,0.16,0.16\}$). This has a consequence we never required: **the information variable $\imath$ is step-wise i.i.d.**, and every autocovariance term of the variance-entropy is identically zero. Measured, $\mathrm{sd}(\imath_n/n)=\sigma_\theta/\sqrt n$ holds **exactly** (a ratio of 1.0000 for every $n$).
 
 This looks like a perfect confirmation, but it is in fact **an artifact of the environment's symmetry.** A generic Markov chain does not have this property.
 
@@ -716,7 +731,7 @@ $$\tfrac15(1-p)+\tfrac45\cdot\tfrac{p}{4}=\tfrac15,$$
 
 | $n$ | 1 | 2 | 3 | 4 |
 |---|---|---|---|---|
-| $\mathrm{sd}(T_n/n)\big/(\sigma_\theta/\sqrt n)$ | 1.0000 | 1.0108 | 1.0183 | **1.0235** |
+| $\mathrm{sd}(\imath_n/n)\big/(\sigma_\theta/\sqrt n)$ | 1.0000 | 1.0108 | 1.0183 | **1.0235** |
 
 The information sequence is **positively autocorrelated**, and the correction term is nonzero — but only a few percent in magnitude: **the i.i.d. approximation is safe to use as an approximation, but not as an identity.**
 
@@ -740,7 +755,7 @@ $$W/\sigma_\theta=1.678\pm0.033\ (\text{relative dispersion }2.0\%),\qquad\text{
 
 At drag$=0.8$ ($\sigma_\theta=1.894>h_\theta=1.187$, a highly skewed distribution): $W/\sigma_\theta=\mathbf{0.049}$, a **total failure**.
 
-> **The validity condition for Corollary 14.2 is $\sigma_\theta\lesssim h_\theta$.** Beyond it, $T$ is no longer approximately Gaussian, and the width formula loses meaning.
+> **The validity condition for Corollary 14.2 is $\sigma_\theta\lesssim h_\theta$.** Beyond it, $\imath$ is no longer approximately Gaussian, and the width formula loses meaning.
 
 ---
 
@@ -754,7 +769,7 @@ Every result so far has assumed a **fixed abstraction**: the goal is fixed, the 
 
 A natural conjecture — one that an earlier version of this theory treated as a theorem — is:
 
-> **Two-level rate condition (original form).** Writing $h_A$ for the entropy rate of the ontological process,
+> **Two-level rate condition (original form; Theorem 11 in an earlier version of this work, which is why the corrected statement below carries the number 11′ and no unprimed Theorem 11 appears in this paper).** Writing $h_A$ for the entropy rate of the ontological process,
 > $$C\ \ge\ h_\theta+h_A.$$
 > Intuition: you must keep up with the state of the world **and** with changes in "the rules of the world," and the two bills add.
 
@@ -837,7 +852,7 @@ The word "coarsest" is doing real work here: **the coarsest abstraction automati
 
 # Part V — The Continuum Limit
 
-## 13. Does the table die?
+## 13. Continuous State Spaces and the Rate-Distortion Limit
 
 ### 13.1 The risk, stated plainly
 
@@ -851,8 +866,9 @@ Every theorem so far has assumed **finite states, enumerable partitions, and a k
 
 The correct replacement is a **rate-distortion quantity**:
 
-> **Definition 13.1.** The rate needed to track an operational variable to within mean-squared distortion $D$ is
-> $$R_\theta(D)=\tfrac12\log_2\frac{\sigma_e^2}{D}\quad\text{bits/step}.$$
+> **Definition 13.1.** The rate needed to track an operational variable to within mean-squared distortion $D_{\mathrm{dist}}$ is
+> $$R_\theta(D_{\mathrm{dist}})=\tfrac12\log_2\frac{\sigma_e^2}{D_{\mathrm{dist}}}\quad\text{bits/step}.$$
+> (We write $D_{\mathrm{dist}}$ rather than the more common bare $D$ specifically to avoid collision with deliberation, $D$, the primitive of §2.2 and the entropy $H_D$ of §3.2 — the two are unrelated.)
 
 **This has an important consequence, worth stating on its own:**
 
@@ -861,6 +877,8 @@ The correct replacement is a **rate-distortion quantity**:
 > **So the fault-tolerance parameter $\varepsilon$ in Theorem 14 is not a patch applied to a falsified constant; it is the precondition for the theory to enter the continuous world at all.**
 
 **(b) Example.** Parallel parking. You need to know where the edge of the space is — but to the millimeter? The nanometer? **Demanding zero error requires infinite information.** What you actually need is "accurate enough to fit the car in," which is a **distortion tolerance**, and that tolerance is what determines how many bits you need. **Without a tolerance, the problem has no answer; with one, it has a finite answer.**
+
+**Status of this bridge: an empirical proxy, not yet a formal derivation.** Definition 13.1 is the standard rate-distortion quantity for a *given* scalar operational variable once one already knows that variable is one-dimensional and Gaussian-ish. What this paper does **not** do is derive $R_\theta(D_{\mathrm{dist}})$ formally from a continuous generalization of the canonical abstraction $\sim_\theta^*$ — e.g., from a bisimulation metric (Ferns, Panangaden, & Precup, 2004) via a Kolmogorov-style rate-distortion bound. §13.3–§13.4 instead learn the operational variable from sampled trajectories with random Fourier features and ridge regression, and confirm empirically that the resulting rate requirement matches $R_\theta$ and is dimension-independent (§13.5). That is evidence the *quantity* is right; it is not yet a proof that $R_\theta(D_{\mathrm{dist}})$ is the correct continuous limit of $h_\theta$ in general, the way §4.2's canonical abstraction is proved to be the correct discrete one. We flag this gap explicitly rather than let the strong empirical results (§13.5) imply a theorem that has not been stated, and list its formalization as an open problem (§18).
 
 ### 13.3 Experimental design
 
@@ -942,7 +960,7 @@ The prior itself is legitimate: it does not tell the learner **which pair** of c
 
 > TIC's abstraction machine survives high-dimensional continuous settings **provided the task structure matches the approximator's inductive bias.** A real high-dimensional task need not have low-order structure.
 
-**"Does the table die" therefore downgrades from "the most likely cause of death" to "dies when structure and inductive bias are mismatched."** The latter is a problem shared by all of machine learning, not one specific to TIC — that distinction matters, **but it should not be mistaken for a solved problem.**
+**The risk named in §13.1 therefore downgrades from "the most likely cause of death" to "dies when structure and inductive bias are mismatched."** The latter is a problem shared by all of machine learning, not one specific to TIC — that distinction matters, **but it should not be mistaken for a solved problem.**
 
 ---
 
@@ -990,7 +1008,7 @@ Moving this boundary would require a separate theory of how entities **form** (p
 
 ## 15. Summary of validity conditions
 
-**The single most useful table in this paper.** Every result, alongside its known conditions of failure.
+**The single most useful table in this paper.** Every result *that carries a quantitative claim*, alongside its known conditions of failure. The supporting theorems summarized in §14 (Theorems 7–10, 12, 13) are not tabulated here because they are structural rather than numerical; the one conditional among them, **Theorem 12**, states its own dependence on world structure in §14 and does not hold universally.
 
 | Result | Holds when | Known failure | Evidence |
 |---|---|---|---|
@@ -1000,13 +1018,13 @@ Moving this boundary would require a separate theory of how entities **form** (p
 | **Theorem 3** (class coherence) | — | **can be satisfied by shared ignorance** (grounding must be added separately) | actually observed in an experiment |
 | **Theorem 14(a)(b)** (fault-tolerant threshold) | per-step predictive coding | — | bound: 0/33 violations; encoder match within 0.005 |
 | **Corollary 14.2** (Gaussian form) | **$\sigma_\theta\lesssim h_\theta$**; quotient chain $\gtrsim16$ blocks | inaccurate at 4/9 blocks; total failure when $\sigma_\theta>h_\theta$ ($W/\sigma=0.049$) | 0.3% error on 16–36 blocks |
-| **Corollary 14.3** (block narrowing) | — | **$1/\sqrt n$ is only an asymptotic lower envelope**, not an equality; describes the bound, not the exact curve | $W\sqrt n$ had not converged by $n=11$ |
+| **Corollary 14.3** (block narrowing) | claimed only over the tested range $n\le11$ | **$1/\sqrt n$ lower-bounds the width, is not an equality**; describes the bound, not the exact curve; the fitted exponent 0.77–0.87 is pre-asymptotic and must not be extrapolated | $W\sqrt n$ had not converged by $n=11$ |
 | **Corollary 14.4** (closed-loop prediction) | independent-attempt approximation | the residual 0.286-bit error is likely due to this approximation | 2.95× improvement over the old prediction |
 | **Theorem 11′** (two-level rate) | requires first determining absorbability | **partial absorbability ($0<h_A^\perp<h_A$) untested** | slopes of 0.021 and 1.131 on the two sides |
-| **$R_\theta(D)$** (continuum limit) | requires a stated distortion tolerance | undefined at zero tolerance (which is exactly the point) | opvar row fully immune to dimension |
+| **$R_\theta(D_{\mathrm{dist}})$** (continuum limit) | requires a stated distortion tolerance | undefined at zero tolerance (which is exactly the point) | opvar row fully immune to dimension |
 | **Learnable abstraction (continuous)** | **task structure matches the inductive bias** | fails at $d=10$ without a low-order prior | recoverable via sample complexity |
 | **i.i.d. approximation for $\sigma_\theta$** | non-degenerate chain | correction term +2%–5% ($n\le4$) | measured for the first time |
-| **Central claim (class coding beats state coding)** | — | tested externally on this claim alone | **MPE `simple_spread`: task variable saturates at 1.58 bits; physical coding at 6 bits has not caught up** |
+| **Central claim (class coding beats state coding)** | — | tested externally on this claim alone; **no error bars are reported for the MPE scores** | **MPE `simple_spread`: task variable saturates at 1.58 bits; physical coding at 6 bits (3.8×) has not caught up** |
 
 ---
 
@@ -1021,7 +1039,7 @@ Moving this boundary would require a separate theory of how entities **form** (p
 | **RL state abstraction / bisimulation** | Givan, Dean, & Greig, 2003 (model minimization); Ferns, Panangaden, & Precup, 2004 (bisimulation metrics); Li, Walsh, & Littman, 2006 (abstraction taxonomy); Kanellakis & Smolka, 1990; Larsen & Skou, 1991 | **The computational content of Theorem 4 is exactly this literature.** Our increment is not the algorithm, it is connecting it to a channel (§6) |
 | **Finite block-length / channel dispersion** | Polyanskiy, Poor, & Verdú, 2010 | **Corollaries 14.2/14.3 are formally isomorphic to this**, with $\sigma_\theta^2$ playing the role of dispersion $V$ |
 | **Source variance-entropy** | Kontoyiannis & Verdú, 2013 | $\sigma_\theta$'s one-dimensional predecessor |
-| **Rate-limited estimation / networked control** | Tatikonda & Mitter, 2004 (sequential rate-distortion) | the information-theoretic skeleton of Theorems 2/6; the form of $R_\theta(D)$ is taken from here |
+| **Rate-limited estimation / networked control** | Tatikonda & Mitter, 2004 (sequential rate-distortion) | the information-theoretic skeleton of Theorems 2/6; the form of $R_\theta(D_{\mathrm{dist}})$ is taken from here |
 | **Computational mechanics / causal states** | Crutchfield, 1994; Shalizi & Crutchfield, 2001 | **Theorem 9 is equivalent to causal states**, cited as a foundation, not a discovery |
 | **Rational metareasoning / value of computation** | Russell & Wefald, 1991 | the stopping rule of §5.4 is **adopted directly** |
 | **Impossibility of common knowledge** | Halpern & Moses, 1990 | background for §7 |
@@ -1086,8 +1104,8 @@ The coordination content of this task is a **landmark assignment**, so
 The channel-free upper bound is $-44.75$. Three readings:
 
 1. **The task variable saturates exactly at $\log_23=1.58$ bits** — oracle already reaches the upper bound at $C=1.58$, and additional bits beyond that buy nothing. **This number was not fitted.**
-2. **The learned abstraction is almost as cheap**: $-46.28$ at $C=1.58$, within about one standard error of the upper bound. The abstraction was learned, not given (held-out assignment accuracy 0.901, versus 0.333 for random).
-3. **Encoding physical state costs more than 4× and never converges**: even at $C=6.00$ bits, it has still not caught up with learned's performance at $1.58$ bits.
+2. **The learned abstraction is almost as cheap**: $-46.28$ at $C=1.58$, i.e. 1.53 short of the channel-free bound on a scale whose uninformative baseline is about $-61$ — it recovers roughly 91% of the available gap. The abstraction was learned, not given (held-out assignment accuracy 0.901, versus 0.333 for random). **We do not report per-cell standard errors for this table; see §15.**
+3. **Encoding physical state is still losing at 3.8× the rate**: at $C=6.00$ bits — 3.8 times the 1.58 bits the task variable needs — phys reaches only $-51.54$, still short of what learned achieves at $1.58$ bits. We did not test beyond 6 bits, so we report this as "has not caught up by 3.8×," not as a convergence claim.
 
 **Channel ablation** (§8.5): oracle drops by 17.22, learned by 14.20; all three converge to the same uninformative baseline of about $-61$ after ablation. phys drops by only 2.30 — **it was never transmitting much task information to begin with**, consistent with reading 3.
 
@@ -1128,17 +1146,18 @@ Ordered by our own judgment of value:
 
 1. **Move $\sigma_\theta$, the fault-tolerant threshold, and drift absorbability onto external environments.** The core claim is confirmed on MPE (§17.2), but the quantities in Theorem 14 and Theorem 11′ have **never once been tested externally** — that is currently the largest asymmetry in the evidence.
 2. **Real systems and third-party replication.** This is the only thing that can change §17.3. **Do not benchmark against LLMs — TIC does not predict perplexity, and that comparison is a dead end.**
-3. **Partially absorbable drift** ($0<h_A^\perp<h_A$). This is exactly where Theorem 11′ has the most content, and we have only tested the two endpoints.
-4. **Rate allocation by task distortion.** §13 found that quantizing "the right variable" is not enough — rate must also be **allocated** according to the task's distortion requirements (uniformly quantizing the operational variable wastes rate — measured to underperform the learned abstraction at low $C$). Rate-distortion theory already has the tools; TIC has not yet connected to them.
-5. **The correct asymptotic form of Corollary 14.3.** The current statement is valid only as a lower envelope.
-6. **The behavior of $\sigma_\theta$ on strongly correlated chains.** The autocovariance correction has only been tested for $n\le4$ under weak correlation.
-7. **Achievability of the Theorem 2 lower bound.** So far there is only empirical evidence that naive coding can approach it to within 0.3–0.9 bits; there is no analytic achievability construction.
+3. **A formal continuous generalization of the canonical abstraction.** §13.2 flags this explicitly: $R_\theta(D_{\mathrm{dist}})$ is currently justified by an empirical proxy (learned features plus a standard scalar rate-distortion formula), not derived from a continuous analogue of $\sim_\theta^*$. The natural route is through a bisimulation metric (Ferns, Panangaden, & Precup, 2004) connected to a rate-distortion bound in the style of Tatikonda & Mitter (2004); doing this properly would upgrade §13 from a strong empirical result to a theorem with the same status as Theorem 4.
+4. **Partially absorbable drift** ($0<h_A^\perp<h_A$). This is exactly where Theorem 11′ has the most content, and we have only tested the two endpoints.
+5. **Rate allocation by task distortion.** §13 found that quantizing "the right variable" is not enough — rate must also be **allocated** according to the task's distortion requirements (uniformly quantizing the operational variable wastes rate — measured to underperform the learned abstraction at low $C$). Rate-distortion theory already has the tools; TIC has not yet connected to them.
+6. **The correct asymptotic form of Corollary 14.3.** The current statement is valid only as a lower envelope.
+7. **The behavior of $\sigma_\theta$ on strongly correlated chains.** The autocovariance correction has only been tested for $n\le4$ under weak correlation.
+8. **Achievability of the Theorem 2 lower bound.** So far there is only empirical evidence that naive coding can approach it to within 0.3–0.9 bits; there is no analytic achievability construction.
 
 ---
 
 ## 19. Conclusion
 
-The claim this paper defends is narrow enough to state in one sentence and load-bearing enough to organize fourteen theorems around: intelligent computation selects state transitions on the coarsest task-determined abstraction, and every departure from that abstraction has a price stated in bits. We have tried to make each piece of that claim answerable rather than rhetorical. "Coarsest" is Theorem 4, not a metaphor. "Price" is $h_\theta$, $\sigma_\theta$, and $R_\theta(D)$, each with a measured value and a stated condition under which the measurement stops meaning what we say it means. Where the theory made a wrong prediction — a sharp threshold that isn't sharp, a two-level rate condition that overcharges, a value proposition for deliberation that a rescue robot refutes in one paragraph — we have kept the wrong prediction in the text next to the correction, on the view that a theory's self-corrections are evidence about it, not embarrassments to be edited out.
+The claim this paper defends is narrow enough to state in one sentence and load-bearing enough to organize fourteen theorems around: intelligent computation selects state transitions on the coarsest task-determined abstraction, and every departure from that abstraction has a price stated in bits. We have tried to make each piece of that claim answerable rather than rhetorical. "Coarsest" is Theorem 4, not a metaphor. "Price" is $h_\theta$, $\sigma_\theta$, and $R_\theta(D_{\mathrm{dist}})$, each with a measured value and a stated condition under which the measurement stops meaning what we say it means. Where the theory made a wrong prediction — a sharp threshold that isn't sharp, a two-level rate condition that overcharges, a value proposition for deliberation that a rescue robot refutes in one paragraph — we have kept the wrong prediction in the text next to the correction, on the view that a theory's self-corrections are evidence about it, not embarrassments to be edited out.
 
 What we have not done is claim more than the evidence in §17 supports. The bandwidth law survives three independent dissociations and one confirmation on a benchmark we did not build; the fault-tolerant threshold and the drift-absorption criterion have not left our own simulations; nothing here has been checked against a physical system or reproduced by anyone else. Section 18's ordering of open problems is also our ordering of priorities: an external test of $\sigma_\theta$ and $h_A^\perp$ would do more to settle whether this theory is right than another theorem would. We would rather submit this paper at the stage of "here is what we have shown, checked, and not yet checked" than wait for a completeness that a single-author theoretical project is not positioned to reach on its own — which is also why the companion materials in Appendix D are offered for exactly that purpose.
 
@@ -1184,19 +1203,20 @@ We recommend that anyone reproducing experiments of this kind check the followin
 | $h$ | physical entropy rate | §4.4 |
 | $h_\theta$ | **intrinsic task bandwidth** | §4.4 |
 | $C$ | channel capacity (bits/step) | §6 |
-| $T$ | per-step information variable, $-\log_2P(S'_\theta\mid S_\theta)$ | §10.1 |
+| $\imath$ | per-step information variable, $-\log_2P(S'_\theta\mid S_\theta)$ (not $T$, reserved for episode length in §10.9, or $H_T$, the transition entropy of §3.2) | §10.1 |
+| $D_{\mathrm{dist}}$ | mean-squared distortion tolerance (continuum limit; not $D$, the deliberation primitive of §2.2) | §13.2 |
 | $\sigma_\theta$ | **operational variance-entropy** | §10.5 |
 | $\varepsilon$ | tolerated per-step tracking error rate | §10.6 |
 | $C^*(\varepsilon)$ | fault-tolerant threshold | §10.6 |
 | $h_A$ | ontological drift rate | §12 |
 | $h_A^\perp$ | **non-absorbable drift rate** | §12.4 |
-| $R_\theta(D)$ | task rate-distortion function (continuum limit) | §13.2 |
+| $R_\theta(D_{\mathrm{dist}})$ | task rate-distortion function (continuum limit) | §13.2 |
 
 ## Appendix D — Code and Data Availability
 
 All verification scripts, raw experimental data (discrete rendezvous, $\sigma_\theta$ measurements, drift absorption; continuous-torus experiments; the external `simple_spread_v3` evaluation), and the theorem-development notes underlying this paper are available at:
 
-**https://github.com/aiegisafety/theory-of-intelligent-computation** (this repository).
+**https://github.com/aiegisafety/theory-of-intelligent-computation**
 
 ---
 
