@@ -100,7 +100,7 @@ Until then, cite the paper directly:
 ```bibtex
 @article{tic2026,
   title   = {Abstraction and Bandwidth in Intelligent Computation: A Task-Relative Theory of State Computation},
-  author  = {Rong Xiang},
+  author  = {aiegisafety},
   year    = {2026},
   note    = {Preprint},
   url     = {[arXiv URL — to be added]}

@@ -1,9 +1,7 @@
 # Abstraction and Bandwidth in Intelligent Computation
 ## A Task-Relative Theory of State Computation
 
-**Rong Xiang**
-
-Independent Researcher — Correspondence: xiangrong@vodafone.de
+**aiegisafety**
 
 **Theory of Intelligent Computation (TIC) — Main Paper v1.0 (English edition)**
 
