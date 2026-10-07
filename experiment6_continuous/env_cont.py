@@ -90,19 +90,23 @@ class ContinuousRendezvous:
 
     def R_theta(self, D):
         """Sequential (causal) rate-distortion reference for tracking a
-        Gauss-Markov offset within mean-squared distortion D:
+        Gaussian random walk (x_{t+1} = x_t + w_t, Var w = sigma_e^2) within
+        mean-squared distortion D per step:
 
-            R(D) ~ max(0, 0.5 * log2(sigma_e^2 / D))    bits/step
+            R(D) = 0.5 * log2(1 + sigma_e^2 / D)    bits/step
 
-        This is the continuum stand-in for h_theta.  It is 1-DIMENSIONAL no
-        matter how many physical dimensions exist -- which is precisely the
-        prediction under test.
+        (Tatikonda, Sahai and Mitter 2004: 0.5*log2(a^2 + sigma^2/D) with a=1.)
+
+        CORRECTION: an earlier version used 0.5*log2(sigma_e^2/D), which is the
+        rate-distortion function of an i.i.d. Gaussian source, not of a random
+        walk.  It gave 1.24 instead of 1.36 bits/step here.  Values stored in
+        exp6_results.json before this correction carry the old figure; they are
+        reference scales only and no result depends on them.
         """
         se2 = self.offset_innovation_sd() ** 2
-        return max(0.0, 0.5 * np.log2(se2 / D))
+        return 0.5 * np.log2(1.0 + se2 / D)
 
     def R_phys(self, D):
-        """Same quantity for tracking the WHOLE physical state to distortion D
-        per coordinate: d times the per-coordinate rate.  This is what a
-        state-aware encoder must pay."""
-        return self.dim * max(0.0, 0.5 * np.log2(self.sigma ** 2 / D))
+        """Same reference for tracking the WHOLE physical state to distortion D
+        per coordinate: d times the per-coordinate sequential rate."""
+        return self.dim * 0.5 * np.log2(1.0 + self.sigma ** 2 / D)

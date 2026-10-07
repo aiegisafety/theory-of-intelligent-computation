@@ -35,6 +35,23 @@ docs/theorem-development-log/ internal working notes (Chinese) recording how the
 | `experiment8_mpe_external/` | §17.2 (external confirmation on `simple_spread_v3`) | The only experiment in this repository run on an environment we did not design ourselves |
 | `docs/theorem-development-log/` | background for all of the above | Chinese-language working notes, kept as-is rather than translated, tracing the theorem set from v0.1 through v0.7 — including the consistency audit that resolved six internal contradictions before v1.0 |
 
+### Second version of the theory (V2)
+
+The second version, *A Theory of Intelligent Computation: Task Abstraction and the Bandwidth of
+Coordination* (monograph, October 2026), uses chapter-based numbering. Its Appendix C maps every
+result of the first version to its new number, and its Appendix D points to this repository. The
+scripts above remain valid for V2; the files below were added for results that are new or
+corrected in V2.
+
+| File | V2 location | What it checks |
+|---|---|---|
+| `experiment5_discrete/theorem14prime.py`, `data/t14prime_out.txt` | Chapter 10 (Theorem 10.2, Lemma 10.4) | Mismatched models: per-step cross-entropy bound, relative entropy of the projection onto the task abstraction, weather and drift perturbations |
+| `experiment5_discrete/recheck_asym.py`, `data/recheck_asym_out.txt` | §9.5, §16.4 | Recomputation of the asymmetric-terrain configurations (Table 9.1) with the tolerance-based refiner; all unchanged |
+| `experiment6_continuous/ablate_conditioning.py` | §12.3 (Proposition 12.1) | Controlled ablation: action-averaged vs action-conditioned representation, same features, data and readout |
+| `experiment6_continuous/env_cont.py` (updated) | §12.2 | Reference rate now uses the sequential rate-distortion function ½·log₂(1 + σ²/D) |
+| `experiment8_mpe_external/run8_persist.py`, `exp8_full.json` | Chapter 14 (Table 14.1, ablation table) | Same seeds as `run8.py`; every number in Chapter 14 is written to `exp8_full.json` |
+| `theorem-verification/table8_2_common_refinement.py`, `table8_2_common_refinement_out.txt` | §8.6 (Theorem 8.8, Table 8.2) | Requirement of the common refinement of several tasks, computed with the true requirement H(B′∣S) |
+
 ## Reproducing the results
 
 **Requirements:** Python 3.10+ and NumPy. `experiment8_mpe_external/` additionally expects

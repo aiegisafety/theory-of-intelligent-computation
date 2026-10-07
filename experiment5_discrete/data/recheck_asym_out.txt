@@ -1,0 +1,5 @@
+# python recheck_asym.py 4,0.3 4,0.6 6,0.15 6,0.55  (one configuration per call)
+m=4 drag=0.30 blocks=16 shapes=10 h_th=2.707(was 2.707) sigma=1.612(was 1.612) W=2.726(was 2.726) UNCHANGED
+m=4 drag=0.60 blocks=16 shapes=10 h_th=1.916(was 1.916) sigma=1.909(was 1.909) W=3.179(was 3.180) UNCHANGED
+m=6 drag=0.15 blocks=36 shapes=21 h_th=2.989(was 2.989) sigma=1.424(was 1.424) W=2.459(was 2.459) UNCHANGED
+m=6 drag=0.55 blocks=36 shapes=21 h_th=2.084(was 2.084) sigma=1.855(was 1.856) W=3.105(was 3.105) UNCHANGED
