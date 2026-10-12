@@ -1,0 +1,23 @@
+1. heuristic vs exhaustive, 80 rows: max shortfall |diff| = 7.6e-07
+2. D_theta(C) on example chains
+   torus m=2              h=1.903 C=1 floor=0.903 D=0.904 Delta=0.001
+   torus m=2              h=1.903 C=2 floor=0.000 D=0.000 Delta=0.000
+   torus m=2              h=1.903 C=3 floor=0.000 D=0.000 Delta=0.000
+   dirichlet K=32 a=1     h=4.394 C=1 floor=3.394 D=3.394 Delta=0.000
+   dirichlet K=32 a=1     h=4.394 C=2 floor=2.394 D=2.394 Delta=0.000
+   dirichlet K=32 a=1     h=4.394 C=3 floor=1.394 D=1.398 Delta=0.004
+   dirichlet K=32 a=0.2   h=3.187 C=1 floor=2.187 D=2.189 Delta=0.003
+   dirichlet K=32 a=0.2   h=3.187 C=2 floor=1.187 D=1.232 Delta=0.045
+   dirichlet K=32 a=0.2   h=3.187 C=3 floor=0.187 D=0.428 Delta=0.242
+3. C=1 penalty over 48 chains: mean 0.050 max 0.290 min 0.0000
+     dirichlet mean 0.000
+     zipf      mean 0.010
+     mixture   mean 0.139
+     R^2 on (h_theta, sigma_theta) = 0.60
+3. C=2 penalty over 48 chains: mean 0.156 max 0.749 min 0.0000
+     dirichlet mean 0.005
+     zipf      mean 0.154
+     mixture   mean 0.309
+     R^2 on (h_theta, sigma_theta) = 0.66
+4. Prop 6.14: violations 0/600; binding rows 466; mean slack 0.205; corr^2 0.86
+5. delta(p)=0.0040 delta(q)=0.0471 (M=3, exhaustive); p majorizes q: True

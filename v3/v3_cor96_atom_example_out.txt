@@ -1,0 +1,3 @@
+top mass 0.85 on 2 successors, rest on 4: h=1.760 sigma=1.251 sigma/h=0.711 W/sigma=0.000
+top mass 0.85 on 2 successors, rest on 8: h=1.910 sigma=1.608 sigma/h=0.842 W/sigma=0.000
+top mass 0.70 on 2 successors, rest on 4: h=2.181 sigma=1.018 sigma/h=0.467 W/sigma=2.182

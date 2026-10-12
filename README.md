@@ -52,6 +52,21 @@ corrected in V2.
 | `experiment8_mpe_external/run8_persist.py`, `exp8_full.json` | Chapter 14 (Table 14.1, ablation table) | Same seeds as `run8.py`; every number in Chapter 14 is written to `exp8_full.json` |
 | `theorem-verification/table8_2_common_refinement.py`, `table8_2_common_refinement_out.txt` | §8.6 (Theorem 8.8, Table 8.2) | Requirement of the common refinement of several tasks, computed with the true requirement H(B′∣S) |
 
+### Third version of the theory (V3)
+
+V3 keeps the structure and numbering of V2 and adds results numbered after the existing ones.
+Its checks are in `v3/` (NumPy only; each script prints the numbers quoted in the book, and the
+matching `*_out.txt` file holds the output used).
+
+| File | V3 location | What it checks |
+|---|---|---|
+| `v3/v3_zero_delay_checks.py` | §6.7 (Lemma 6.8 – Prop 6.13, Table 6.2) | Per-step floor D_θ(C), zero-delay penalty over 48 chains, bound through the largest atom, non-Schur-convexity counterexample |
+| `v3/v3_error_propagation.py` | §6.8 (Prop 6.15, Table 6.3) | Myopic per-step code when decoding errors propagate; decomposition of the excess |
+| `v3/v3_cor96_domain.py`, `v3/v3_cor96_atom_example.py` | §9.5 | Domain of the normal approximation (Corollary 9.6) over 48 chains; in-domain failure with a dominant atom |
+| `v3/v3_tolerance.py` | §8.1 | Theorem 8.2 on 40 environments; order dependence of Definition 8.1; the separation Δ* |
+| `v3/chains.py`, `v3/fastpart.py` | — | Chain families (Appendix B.9) and the balanced-partition search |
+| `experiment6_continuous/gain_check.py` | §12.4–§12.5 | Sensitivity of the lowest-rate result to the controller gain |
+
 ## Reproducing the results
 
 **Requirements:** Python 3.10+ and NumPy. `experiment8_mpe_external/` additionally expects
