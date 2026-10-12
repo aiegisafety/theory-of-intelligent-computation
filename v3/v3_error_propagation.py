@@ -4,7 +4,7 @@ Sender knows B_{t+1} and tracks the receiver's belief pi_t. Myopic rule: partiti
 belief q_t = pi_t P into M = 2^C cells of masses as equal as possible; send the cell of B_{t+1};
 receiver's new belief is q_t restricted to the cell. Residual uncertainty H(pi_{t+1}).
 """
-import numpy as np
+import json, numpy as np
 from chains import H, rate, stat, dirichlet, torus_m2
 from fastpart import _f
 
@@ -55,6 +55,7 @@ def run(T, C, steps=8000, seed=0, burn=500):
 
 
 if __name__ == "__main__":
+    OUT = []
     for name, T in [("dirichlet K=16 a=0.5", dirichlet(16, 0.5, np.random.default_rng(11))),
                     ("torus m=2", torus_m2())]:
         h = rate(T)
@@ -62,4 +63,6 @@ if __name__ == "__main__":
         print("  C  floor   D_shared  R_myopic  E[H(q)]  E[H(msg)]")
         for C in (1, 2, 3):
             R, hq, hm = run(T, C)
+            OUT.append(dict(chain=name, h=h, C=C, floor=max(h - C, 0), D=D_shared(T, C), R=R, Hq=hq, Hm=hm))
             print("  %d  %.4f  %.4f    %.4f    %.4f   %.4f" % (C, max(h - C, 0), D_shared(T, C), R, hq, hm), flush=True)
+    json.dump(OUT, open("v3_error_propagation_data.json", "w"), indent=1)

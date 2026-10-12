@@ -1,5 +1,5 @@
 """V3 §9.5: is sigma_theta <~ h_theta sufficient for Corollary 9.6?  W(20-80)/sigma over 48 chains."""
-import numpy as np
+import json, numpy as np
 from chains import families, h_sigma_W
 
 rows = []
@@ -16,3 +16,5 @@ for fam in ("dirichlet", "zipf", "mixture"):
 print("in-domain chains with W/sigma < 0.5:")
 for r in inn:
     if r[5] < 0.5: print("  ", r[0], r[1], r[2], "sigma/h=%.3f W/sigma=%.3f" % (r[4] / r[3], r[5]))
+
+json.dump([dict(fam=r[0], K=r[1], par=r[2], h=r[3], sigma=r[4], ratio=r[5]) for r in rows], open("v3_cor96_data.json", "w"), indent=1)

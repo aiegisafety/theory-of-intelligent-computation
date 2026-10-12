@@ -1,5 +1,6 @@
 """V3 §6.7: zero-delay converse D_theta(C), penalty Delta_theta (Def 6.12, Table 6.2), Prop 6.13 bound, Schur counterexample."""
-import itertools, math, numpy as np
+import itertools, math, json, numpy as np
+OUT = {}
 from chains import H, rate, stat, families, torus_m2, dirichlet, h_sigma_W
 from fastpart import best_partition_entropy
 
@@ -37,6 +38,7 @@ for name, T in ex:
     mu = stat(T); h = rate(T, mu)
     for C in (1, 2, 3):
         d = D(T, C, mu)
+        OUT.setdefault("examples", []).append(dict(name=name, h=h, C=C, D=d))
         print("   %-22s h=%.3f C=%d floor=%.3f D=%.3f Delta=%.3f" % (name, h, C, max(h - C, 0), d, d - max(h - C, 0)), flush=True)
 
 # 3. penalty over 48 chains, C=1,2 ; regression on h, sigma
@@ -70,6 +72,8 @@ for _ in range(600):
     if p.max() >= 1 / M:
         xs.append(math.log2(M) - U(pbar, M)); ys.append(math.log2(M) - exact)
 xs = np.array(xs); ys = np.array(ys)
+OUT["families"] = [dict(fam=r[0], h=r[1], sigma=r[2], pen1=r[3][0], pen2=r[3][1]) for r in rows]
+OUT["bound"] = dict(bound=xs.tolist(), deficit=ys.tolist())
 print("4. Prop 6.13: violations %d/600; binding rows %d; mean slack %.3f; corr^2 %.2f" %
       (viol, len(xs), (ys - xs).mean(), np.corrcoef(xs, ys)[0, 1] ** 2), flush=True)
 
@@ -78,3 +82,5 @@ p = (0.3153, 0.2661, 0.1642, 0.1517, 0.1027); q = (0.2190, 0.2135, 0.2126, 0.197
 maj = all(np.cumsum(sorted(p, reverse=True)) >= np.cumsum(sorted(q, reverse=True)) - 1e-12)
 print("5. delta(p)=%.4f delta(q)=%.4f (M=3, exhaustive); p majorizes q: %s" %
       (math.log2(3) - exact_best(p, 3), math.log2(3) - exact_best(q, 3), maj), flush=True)
+
+json.dump(OUT, open("v3_zero_delay_data.json", "w"), indent=1)

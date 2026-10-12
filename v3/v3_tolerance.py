@@ -1,6 +1,6 @@
 """V3 §8.1: soundness and conservatism of Theorem 8.2, order dependence of Definition 8.1,
 and the separation Delta* measured against the final abstraction (same goal label only)."""
-import numpy as np
+import json, numpy as np
 
 K, COPIES = 6, 4
 N = K * COPIES
@@ -107,6 +107,7 @@ if __name__ == "__main__":
     # order dependence in one environment, exact kernels
     P, goal, cls = make_env(np.random.default_rng(5)); final, hist = exact_refine(P, goal)
     lims = [limit(P, goal, final, np.random.default_rng(o).permutation(N), grid) for o in range(25)]
+    DATA = dict(Delta=D.tolist(), DeltaStar=Ds.tolist(), limit=L.tolist())
     print("order dependence (one env, exact kernels, 25 orders): limit %.3f-%.3f, ratio %.2f" %
           (min(lims), max(lims), max(lims) / min(lims)))
     # Delta* rule with sampling noise, 16 envs
@@ -118,5 +119,8 @@ if __name__ == "__main__":
         for n in (200, 5000):
             om = [overmerge(eps_refine(sample(P, n, srng), goal, f * Ds, np.arange(N)), final) for P, goal, final, Ds in envs]
             res[(f, n)] = (np.mean(om), sum(o == 0 for o in om))
+            DATA.setdefault("sampled", []).append(dict(f=f, n=n, overmerge=float(np.mean(om)), clean=int(sum(o == 0 for o in om))))
         print("eps=%.1f Delta*: over-merge n=200 %.3f, n=5000 %.3f, clean at n=5000 %d/16, clean at n=200 %d/16" %
               (f, res[(f, 200)][0], res[(f, 5000)][0], res[(f, 5000)][1], res[(f, 200)][1]))
+    DATA["order_limits"] = lims
+    json.dump(DATA, open("v3_tolerance_data.json", "w"), indent=1)

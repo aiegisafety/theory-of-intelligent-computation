@@ -1,6 +1,6 @@
 """V3 §6.8: decomposition of the 0.3-0.9-bit gap of the greedy balanced-mass code of Experiment 1
 (theorem-verification/experiment1.py, class-aware coder, 12 classes) into belief dispersion
-E[H(q_t)] - h_theta and coding loss C - E[H(message)]. Run from theorem-verification/ or set PATH below."""
+E[H(q_t)] - h_theta and coding loss C - E[H(message)]. Run from the repository's v3/ folder; set TV_DIR to use another copy of theorem-verification/."""
 import os, numpy as np
 PATH = os.environ.get("TV_DIR", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "theorem-verification"))
 exec(open(os.path.join(PATH, "experiment1.py")).read().split("P=lambda")[0])
