@@ -129,7 +129,7 @@ def fig6_3():
     ax.plot(x, y, "o", color=BLUE, ms=3, alpha=0.6)
     lim = max(x.max(), y.max()) * 1.05; ax.plot([0, lim], [0, lim], "-", color=GREEN, lw=1.2)
     ax.text(0.55 * lim, 0.42 * lim, "bound = deficit", color=GREEN, fontsize=7.5, rotation=35)
-    ax.set_xlabel("$\\log M-U(\\bar p,M)$, Proposition 6.13"); ax.set_ylabel("row deficit $\\log M-\\max_{\\mathcal{Q}} H(p_{\\mathcal{Q}})$")
+    ax.set_xlabel("$\\log M-\\Lambda(\\bar p,M)$, Proposition 6.13"); ax.set_ylabel("row deficit $\\log M-\\max_{\\Pi} H(p_{\\Pi})$")
     ax.set_title("The bound through the largest atom (%d rows)" % len(x))
     fig.tight_layout(); save(fig, "fig6_3_errors_and_bound")
 
