@@ -64,6 +64,8 @@ matching `*_out.txt` file holds the output used).
 | `v3/v3_error_propagation.py` | §6.8 (Prop 6.15, Table 6.3) | Myopic per-step code when decoding errors propagate; decomposition of the excess |
 | `v3/v3_cor96_domain.py`, `v3/v3_cor96_atom_example.py` | §9.5 | Domain of the normal approximation (Corollary 9.6) over 48 chains; in-domain failure with a dominant atom |
 | `v3/v3_tolerance.py` | §8.1 | Theorem 8.2 on 40 environments; order dependence of Definition 8.1; the separation Δ* |
+| `v3/v3_experiment1_decomposition.py` | §6.8 | Decomposition of the 0.3–0.9-bit gap of the greedy code of Experiment 1 into belief dispersion and unused capacity |
+| `v3/v3_figures.py` | Figures 6.1–14.1 | Draws all nine figures of V3 from the data files of this repository (the `v3/*_data.json` files are written by the scripts above) |
 | `v3/chains.py`, `v3/fastpart.py` | — | Chain families (Appendix B.9) and the balanced-partition search |
 | `experiment6_continuous/gain_check.py` | §12.4–§12.5 | Sensitivity of the lowest-rate result to the controller gain |
 

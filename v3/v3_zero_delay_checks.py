@@ -1,4 +1,4 @@
-"""V3 §6.7: zero-delay converse D_theta(C), penalty Delta_theta, Prop 6.14 bound, Schur counterexample."""
+"""V3 §6.7: zero-delay converse D_theta(C), penalty Delta_theta (Def 6.12, Table 6.2), Prop 6.13 bound, Schur counterexample."""
 import itertools, math, numpy as np
 from chains import H, rate, stat, families, torus_m2, dirichlet, h_sigma_W
 from fastpart import best_partition_entropy
@@ -18,16 +18,19 @@ def D(T, C, mu):
     return sum(mu[b] * (H(T[b]) - best_partition_entropy(T[b], M)) for b in range(len(T)))
 
 
-rng = np.random.default_rng(2026)
+# each section has its own seed so that the sections are reproducible independently
+rng = np.random.default_rng(1)
 # 1. partition search vs exhaustive enumeration
-err = 0.0
-for _ in range(80):
-    n = int(rng.integers(3, 9)); p = rng.dirichlet([0.7] * n); M = int(rng.choice([2, 3, 4]))
-    err = max(err, exact_best(p, M) - best_partition_entropy(p, M))
-print("1. heuristic vs exhaustive, 80 rows: max shortfall |diff| = %.1e" % err, flush=True)
+err = 0.0; nbad = 0
+for _ in range(400):
+    n = int(rng.integers(3, 10)); a = float(rng.choice([0.2, 0.7, 2.0]))
+    p = rng.dirichlet([a] * n); M = int(rng.choice([2, 3, 4]))
+    d = exact_best(p, M) - best_partition_entropy(p, M); err = max(err, d); nbad += d > 1e-9
+print("1. heuristic vs exhaustive, 400 rows with 3-9 successors: short in %d rows, max shortfall = %.1e bits" % (nbad, err), flush=True)
 
 # 2. example chains
 print("2. D_theta(C) on example chains", flush=True)
+rng = np.random.default_rng(2)
 ex = [("torus m=2", torus_m2()), ("dirichlet K=32 a=1", dirichlet(32, 1.0, rng)),
       ("dirichlet K=32 a=0.2", dirichlet(32, 0.2, rng))]
 for name, T in ex:
@@ -51,12 +54,13 @@ for ci, C in enumerate((1, 2)):
     print("     R^2 on (h_theta, sigma_theta) = %.2f" % (1 - res.var() / v.var()), flush=True)
 
 
-# 4. Prop 6.14 bound
+# 4. Prop 6.13 bound
 def U(pbar, M):
     if pbar >= 1: return 0.0
     return -pbar * math.log2(pbar) - (1 - pbar) * math.log2((1 - pbar) / (M - 1))
 
 
+rng = np.random.default_rng(4)
 viol = 0; xs = []; ys = []
 for _ in range(600):
     n = int(rng.integers(4, 16)); a = float(rng.choice([0.1, 0.3, 1.0])); p = rng.dirichlet([a] * n)
@@ -66,7 +70,7 @@ for _ in range(600):
     if p.max() >= 1 / M:
         xs.append(math.log2(M) - U(pbar, M)); ys.append(math.log2(M) - exact)
 xs = np.array(xs); ys = np.array(ys)
-print("4. Prop 6.14: violations %d/600; binding rows %d; mean slack %.3f; corr^2 %.2f" %
+print("4. Prop 6.13: violations %d/600; binding rows %d; mean slack %.3f; corr^2 %.2f" %
       (viol, len(xs), (ys - xs).mean(), np.corrcoef(xs, ys)[0, 1] ** 2), flush=True)
 
 # 5. Schur counterexample

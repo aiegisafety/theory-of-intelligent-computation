@@ -1,4 +1,5 @@
 40 envs, exact kernels, natural order:
+  limit >= Delta in 40/40;  limit/Delta: median 5.09 range 1.26-442.3
   limit >= Delta/2 in 40/40;  limit/(Delta/2): median 10.2 range 2.5-884.5
   Delta <= Delta* in 40/40;  Delta*/Delta median 6.24
   limit >= Delta*/2 in 38/40;  corr(limit,Delta)=0.42 corr(limit,Delta*)=0.74

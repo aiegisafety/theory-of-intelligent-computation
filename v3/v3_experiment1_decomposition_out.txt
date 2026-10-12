@@ -1,0 +1,4 @@
+h=2.00 C=1  U=1.872  floor=1.000  gap=0.872 | belief dispersion E[H(q)]-h=0.863  coding loss C-E[H(msg)]=0.015
+h=2.00 C=2  U=0.462  floor=0.000  gap=0.462 | belief dispersion E[H(q)]-h=0.214  coding loss C-E[H(msg)]=0.274
+h=3.00 C=1  U=2.447  floor=2.000  gap=0.447 | belief dispersion E[H(q)]-h=0.443  coding loss C-E[H(msg)]=0.003
+h=3.00 C=2  U=1.324  floor=1.000  gap=0.324 | belief dispersion E[H(q)]-h=0.278  coding loss C-E[H(msg)]=0.032

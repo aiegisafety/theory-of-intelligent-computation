@@ -98,6 +98,7 @@ if __name__ == "__main__":
         rows.append((D, Ds, lim))
     D = np.array([r[0] for r in rows]); Ds = np.array([r[1] for r in rows]); L = np.array([r[2] for r in rows])
     print("40 envs, exact kernels, natural order:")
+    print("  limit >= Delta in %d/40;  limit/Delta: median %.2f range %.2f-%.1f" % ((L >= D).sum(), np.median(L / D), (L / D).min(), (L / D).max()))
     print("  limit >= Delta/2 in %d/40;  limit/(Delta/2): median %.1f range %.1f-%.1f" %
           ((L >= D / 2).sum(), np.median(L / (D / 2)), (L / (D / 2)).min(), (L / (D / 2)).max()))
     print("  Delta <= Delta* in %d/40;  Delta*/Delta median %.2f" % ((D <= Ds + 1e-12).sum(), np.median(Ds / D)))
